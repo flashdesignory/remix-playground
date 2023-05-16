@@ -19,7 +19,7 @@ export default function InputForm({ category }: { category: string }) {
                         name="category"
                         className="flex-1 rounded-md border-2 border-blue-500 px-3 text-lg leading-loose"
                         value={category}
-                       
+                        readOnly
                     />
                 </label>
 
