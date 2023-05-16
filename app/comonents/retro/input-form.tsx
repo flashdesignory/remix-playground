@@ -13,7 +13,7 @@ export default function InputForm({ category }: { category: string }) {
                     />
                 </label>
 
-                <label className="flex w-full flex-col gap-1">
+                <label className="flex w-full flex-col gap-1 hidden">
                     <span>Category: </span>
                     <input
                         name="category"
