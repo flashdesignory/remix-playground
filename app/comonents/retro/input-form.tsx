@@ -1,5 +1,6 @@
 import { Form } from "@remix-run/react";
 
+
 export default function InputForm({ category }: { category: string }) {
     return (
         <>

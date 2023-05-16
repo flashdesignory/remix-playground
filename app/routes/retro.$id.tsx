@@ -50,16 +50,12 @@ export const action = async ({ params, request }: ActionArgs) => {
     );
   }
 
-  const item = await createItem({ title, userId, retroId, category });
-  console.log(item);
-  // return redirect(`/notes/${note.id}`);
+  await createItem({ title, userId, retroId, category });
   return null;
 };
 
 export default function RetroRoute() {
-  // const { retro } = useLoaderData<typeof loader>();
   const retro = useLoaderData() as unknown as RetroWithItems;
-  console.log(retro);
   const items = retro.items ?? [];
 
   const positiveItems = items.filter(item => item.category === "positive");
