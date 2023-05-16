@@ -4,18 +4,16 @@ import { Form } from "@remix-run/react";
 export default function InputForm({ category }: { category: string }) {
     return (
         <>
-            <Form method="post">
+            <Form method="post" className="flex w-full flex-row gap-1">
                 <label className="flex w-full flex-col gap-1">
-                    <span>Title: </span>
                     <input
                         name="title"
                         className="flex-1 rounded-md border-2 border-blue-500 px-3 text-lg leading-loose"
-                       
+                       placeholder="what's on your mind?"
                     />
                 </label>
 
                 <label className="flex w-full flex-col gap-1 hidden">
-                    <span>Category: </span>
                     <input
                         name="category"
                         className="flex-1 rounded-md border-2 border-blue-500 px-3 text-lg leading-loose"
