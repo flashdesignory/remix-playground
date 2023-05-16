@@ -1,3 +1,4 @@
+import type { ActionArgs } from "@remix-run/node";
 import type { LoaderArgs } from "@remix-run/node";
 import { requireUserId } from "~/session.server";
 import invariant from "tiny-invariant";
@@ -5,11 +6,14 @@ import { getRetro } from "~/models/retro.server";
 import { json } from "@remix-run/node";
 
 import RetroColumn from "~/comonents/retro/column";
+import { createItem } from "~/models/item.server";
 
 import {
   useLoaderData,
 } from "@remix-run/react";
-import type { Retro } from "@prisma/client";
+import type { Item, Retro } from "@prisma/client";
+
+export type RetroWithItems = Retro & { items: Item[] };
 
 export const loader = async ({ params, request }: LoaderArgs) => {
   await requireUserId(request);
@@ -22,9 +26,39 @@ export const loader = async ({ params, request }: LoaderArgs) => {
   return json(retro);
 };
 
+export const action = async ({ params, request }: ActionArgs) => {
+  const userId = await requireUserId(request);
+  const retroId = params.id ?? "";
+  invariant(params.id, "retro id not found");
+
+  const formData = await request.formData();
+  const title = formData.get("title");
+
+  if (typeof title !== "string" || title.length === 0) {
+    return json(
+      { errors: { body: null, title: "Title is required" } },
+      { status: 400 }
+    );
+  }
+
+  const category = formData.get("category");
+
+  if (typeof category !== "string" || category.length === 0) {
+    return json(
+      { errors: { body: null, category: "Category is required" } },
+      { status: 400 }
+    );
+  }
+
+  const item = await createItem({ title, userId, retroId, category });
+  console.log(item);
+  // return redirect(`/notes/${note.id}`);
+  return null;
+};
+
 export default function RetroRoute() {
   // const { retro } = useLoaderData<typeof loader>();
-  const retro = useLoaderData() as unknown as Retro;
+  const retro = useLoaderData() as unknown as RetroWithItems;
   console.log(retro);
   const items = retro.items ?? [];
 
